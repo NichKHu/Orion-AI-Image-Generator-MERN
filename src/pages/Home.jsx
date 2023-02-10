@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Card, FormField, Loader } from '../components'
 
-//If data is greater than 0, we want to map over the data and we want to render all the cards
+//If data length is greater than 0, we map over the data and we render all the cards
 //while passing post data to each individual cards
 const RenderCards = ({ data, title }) => { 
     if(data?.length > 0) {
