@@ -9,7 +9,7 @@ const FormField = ({ labelName, type, name, placeholder, value, handleChange, is
         </label>
 
         {isSurpriseMe && (
-          <button type='button' onClick='handleSurpriseMe' 
+          <button type='button' onClick={handleSurpriseMe}
           className='font-semibold text-xs bg-[#ECECF1] py-1 px-2 rounded-[5px] text-[#666E75]'>
             Surprise Me!
           </button>
