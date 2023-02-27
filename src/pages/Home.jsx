@@ -19,6 +19,35 @@ const Home = () => {
     const [allPosts, setAllPosts] = useState(null);
 
     const [searchText, setSearchText] = useState('');
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            setLoading(true); // instantly doing a process
+
+            try {
+                const response = await fetch("http://localhost:8080/api/v1/post", {
+                    method: 'GET', 
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+
+                // Check if response is ok
+                if(response.ok) {
+                    const result = await response.json();
+
+                    setAllPosts(result.data.reverse()); // Reversing as to show newest posts at the top
+                }   
+
+            } catch (error) {
+            alert(err);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchPosts();
+    }, []);// Called at the start so dependency array is empty
  
 
   return (
@@ -50,7 +79,7 @@ const Home = () => {
                         {searchText ? (
                             <RenderCards data={[]} title='No search results found'/>
                         ) : (
-                            <RenderCards data={[]} title='No posts found'/>
+                            <RenderCards data={allPosts} title='No posts found'/>
                         )}
                     </div>
                 </>

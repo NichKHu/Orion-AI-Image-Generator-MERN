@@ -41,8 +41,31 @@ const CreatePost = () => {
     }
   };
 
-  const handleSubmit = () => {
- 
+  const handleSubmit = async (e) => {
+    e.preventDefault(); //to ensure the browser does not reload the application
+
+    if (form.prompt && form.photo) {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...form }),
+        });
+
+        await response.json();
+        alert('Success');
+        navigate('/');
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert('Please generate an image with proper details');
+    }
   };
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -55,13 +78,13 @@ const CreatePost = () => {
   return (
     <section className='max-w-7xl mx-auto '>
       <div>
-          <h1 className='font-extrabold text-[#222328] text-[32px]'>Create</h1>
-          <p className='mt-2 text-[#666e75] text-[16px] max-w-[1000px]'> Create imaginative and visually 
+          <h1 className='font-rale text-[#222328] text-[32px]'>Astral Ai Image Generator</h1>
+          <p className='font-rale mt-2 text-[#666e75] text-[16px] max-w-[1000px]'> Create imaginative and visually 
           stunning images through DALL-E AI and share them with the community</p>
       </div>
 
 
-      <form className='mt-16 max-w-3xl' onSubmit={handleSubmit}>
+      <form className='mt-8 max-w-3xl' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-5'>
           <FormField 
             labelName='Your name'
@@ -107,16 +130,16 @@ const CreatePost = () => {
 
         <div className='mt-5 flex gap-5'>
           <button type='button' onClick={generateImage} 
-          className='text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'>
+          className='text-white bg-green-700 font-inter font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'>
             {generatingImg ? 'Generating...' : 'Generate'}
           </button>
         </div>
 
-        <div className='mt-10 text-[#666e75] text-[14px]'>
-          <p>Once you have created the iamge you want, you can share it with others in the community.</p>
+        <div className='font-rale mt-10 text-[#666e75] text-[14px]'>
+          <p>Once you have created the image you want, click the button below to share it with others in the community.</p>
           <button type='submit'
-          className='mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'>
-              {loading ? 'Loading...' : 'Share with the community'}
+          className='mt-3 text-white bg-[#6469ff] font-inter font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'>
+              {loading ? 'Loading...' : 'Share with community'}
           </button>
         </div>
 
